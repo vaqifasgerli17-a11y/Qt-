@@ -33,7 +33,7 @@ Rectangle {
         TextField {
             id: passwordInput
             placeholderText: "Şifrə"
-            echoMode: TextInput.Password // Şifrəni gizli (ulduzlu) edir
+            echoMode: TextInput.Password
             Layout.fillWidth: true
             Layout.preferredHeight: 40
             font.pixelSize: 14
@@ -47,7 +47,7 @@ Rectangle {
             onClicked: {
                 if (usernameInput.text === "admin" && passwordInput.text === "1234") {
                     console.log("Giriş uğurludur! Əsas səhifəyə keçilir...")
-                    stackView.push("MainPage.qml") // Əsas səhifəyə keçid edir
+                    stackView.push("MainPage.qml")
                 } else {
                     console.log("Xəta: İstifadəçi adı və ya şifrə yanlışdır!")
                 }

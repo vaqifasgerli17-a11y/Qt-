@@ -11,6 +11,6 @@ Window {
     StackView {
         id: stackView
         anchors.fill: parent
-        initialItem: "LoginPage.qml" // İlk olaraq Giriş Səhifəsi açılır
+        initialItem: "LoginPage.qml"
     }
 }
