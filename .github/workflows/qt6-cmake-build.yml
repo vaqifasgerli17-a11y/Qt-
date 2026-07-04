@@ -1,0 +1,37 @@
+name: Qt6 QML LocalStorage Build Check
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. GitHub anbarındakı bütün kodları virtual Linux serverinə kopyalayır
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    # 2. Linux serverində Qt6-nın vizual pəncərə aça bilməsi üçün qrafik modulları quraşdırır
+    - name: Install System Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake libgl1-mesa-dev libxkbcommon-dev libx11-xcb-dev libglu1-mesa-dev
+
+    # 3. Virtual serverə rəsmi Qt6.5 mühitini və sizin kodda işlədilən QML (qtdeclarative) modulunu yükləyir
+    - name: Install Qt6 Environment
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.5.0'
+        modules: 'qtdeclarative' # QML Controls, Layouts və Dialogs üçün vacibdir
+
+    # 4. CMake-i işə salaraq layihəni yığılmağa hazırlayır
+    - name: Configure CMake
+      run: cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+
+    # 5. C++ (main.cpp) və QML fayllarını bir yerə yığıb icra oluna bilən (.exe/.out) proqram halına gətirir
+    - name: Build Application
+      run: cmake --build build
